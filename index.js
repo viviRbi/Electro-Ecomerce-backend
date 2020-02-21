@@ -12,8 +12,10 @@ app.use(bodyParser.json())
 
 if (process.env.NODE_ENV === 'development') {
   app.use(cors({ origin: `http://localhost:3000` }))
+  console.log('local host')
 } else {
   app.use(cors({ origin: `${process.env.CLIENT_URL}` }))
+  console.log('process.env')
 }
 app.use('/api', authRoutes)
 
