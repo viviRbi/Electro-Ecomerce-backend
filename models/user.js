@@ -45,6 +45,8 @@ userSchema.virtual('password')
 
 //method
 userSchema.methods = {
+  // When user login again, use this.salt above (the salt in database) to encrypt it whith sha1 algo. 
+  //The makeSalt() function isn't use this time
   authenticate: function (plainText) {
     return this.encryptPassword(plainText)
   },
