@@ -10,7 +10,7 @@ require('dotenv').config()
 app.use(morgan('dev'))
 app.use(bodyParser.json())
 
-if (process.env.NODE_ENV = 'deploy') {
+if (process.env.NODE_ENV = 'development') {
   app.use(cors({ origin: `http://localhost:3000` }))
 } else {
   app.use(cors({ origin: `${process.env.CLIENT_URL}` }))
