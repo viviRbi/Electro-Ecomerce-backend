@@ -1,8 +1,15 @@
 const mongoose = require("mongoose")
 require('dotenv').config()
 
+let mongoURL = ''
+if (process.env.NODE_ENV === 'development') {
+  mongoURL = "mongodb://localhost/project_final"
+} else {
+  mongoURL = process.env.DATABASE
+}
+
 mongoose
-  .connect(process.env.DATABASE, {
+  .connect(mongoURL, {
     useNewUrlParser: true,
     useFindAndModify: true,
     useUnifiedTopology: false,
