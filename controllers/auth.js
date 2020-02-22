@@ -146,6 +146,7 @@ exports.resetPassword = (req, res) => {
           password: newPassword,
           resetPasswordLink: ''
         }
+        // lodash, shallow overwrite user values with updatedfields
         user = _.extend(user, updatedFields)
         user.save((err, result) => {
           if (err) {

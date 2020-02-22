@@ -3,6 +3,8 @@ const app = express()
 const morgan = require('morgan')
 const cors = require('cors')
 const authRoutes = require('./routes/auth')
+const categoryRoutes = require('./routes/category')
+const productRoutes = require('./routes/product')
 const bodyParser = require('body-parser')
 require('dotenv').config()
 
@@ -18,6 +20,8 @@ if (process.env.NODE_ENV === 'development') {
   console.log('process.env')
 }
 app.use('/api', authRoutes)
+app.use('/category', categoryRoutes)
+app.use('/product', productRoutes)
 
 const port = process.env.PORT || 8000
 
