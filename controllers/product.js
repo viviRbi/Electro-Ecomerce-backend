@@ -3,6 +3,9 @@ const _ = require('lodash')
 const formidable = require('formidable')
 const fs = require('fs')
 
+exports.all = (req, res) => {
+  Product.find().then(data => res.json(data))
+}
 exports.create = (req, res) => {
   let form = new formidable.IncomingForm()
   form.keepExtensions = true
@@ -36,6 +39,7 @@ exports.create = (req, res) => {
 exports.byId = (req, res) => {
   Product
     .findOne({ _id: req.params._id })
+    .populate('category', 'name')
     .then(data => res.json(data))
 }
 exports.updateProduct = (req, res) => {
@@ -66,5 +70,16 @@ exports.updateProduct = (req, res) => {
 exports.deleteProduct = (req, res) => {
   Product
     .deleteOne({ _id: req.params._id })
-    .then(empty => res.json({ message: `Product removed sucessfully` }))
+    .then(() => Product.find().then(pro => res.json(pro))
+      .then(() => res.redirect(303, "/")))
+}
+exports.photoProduct = (req, res) => {
+  Product
+    .findOne({ _id: req.params._id })
+    .then(product => {
+      if (product.photo.data) {
+        res.set('Content-Type', product.photo.contentType)
+        return res.send(product.photo.data)
+      }
+    })
 }

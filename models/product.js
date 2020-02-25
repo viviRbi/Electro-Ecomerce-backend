@@ -1,5 +1,4 @@
 const mongoose = require('../db/connection')
-const { ObjectId } = mongoose.Schema
 
 const productSchema = new mongoose.Schema({
   name: {
@@ -20,8 +19,8 @@ const productSchema = new mongoose.Schema({
     maxlength: 32
   },
   category: {
-    type: ObjectId,
     ref: 'Category',
+    type: mongoose.Schema.Types.ObjectId,
     required: true
   },
   quantity: {
