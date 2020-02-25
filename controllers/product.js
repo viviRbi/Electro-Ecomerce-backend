@@ -4,7 +4,7 @@ const formidable = require('formidable')
 const fs = require('fs')
 
 exports.all = (req, res) => {
-  Product.find().then(data => res.json(data))
+  Product.find().populate('category', 'name').then(data => res.json(data))
 }
 exports.create = (req, res) => {
   let form = new formidable.IncomingForm()
@@ -26,13 +26,14 @@ exports.create = (req, res) => {
       product.photo.data = fs.readFileSync(files.photo.path)
       product.photo.contentType = files.photo.type
     }
+    // Product.create(product).then(() => res.redirect(303, "/product"));
     product.save((err, result) => {
       if (err) {
         return res.status(400).json({
           error: err
         })
       }
-      res.json(result)
+      res.redirect(303, "/product")
     })
   })
 }
@@ -56,23 +57,29 @@ exports.updateProduct = (req, res) => {
       }
       product = _.extend(product, fields)
       // console.log("product", product)
-      product.save((err, result) => {
-        if (err) {
-          return res.status(400).json({
-            error: err
-          })
-        }
-        res.json(result)
-      })
+      // product.save((err, result) => {
+      //   if (err) {
+      //     return res.status(400).json({
+      //       error: err
+      //     })
+      //   }
+      //   res.json(result)
+      // })
+      Product.create(product).then(() => res.redirect(303, "/product"));
+      // Product
+      //   .find({})
+      //   .then(() => res.redirect(303, '/product'))
     })
   })
 }
 exports.deleteProduct = (req, res) => {
-  Product
-    .deleteOne({ _id: req.params._id })
-    .then(() => Product.find().then(pro => res.json(pro))
-      .then(() => res.redirect(303, "/")))
+  Product.deleteOne({ _id: req.params._id }).then(() => {
+    Product
+      .find({})
+      .then(() => res.redirect(303, "/product"))
+  });
 }
+
 exports.photoProduct = (req, res) => {
   Product
     .findOne({ _id: req.params._id })
