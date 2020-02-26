@@ -81,7 +81,7 @@ exports.signin = (req, res) => {
     }
     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' })
     const { _id, name, email, role } = user
-    //if success, send this json to frontend. It'll be store in res.data : axios().then(res=> res.data)
+    //if success, send this json to frontend. It'll be store in res.data : axios(url).then(res=> res.data)
     return res.json({
       token,
       user: { _id, name, email, role }

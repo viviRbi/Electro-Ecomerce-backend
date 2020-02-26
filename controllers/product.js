@@ -56,16 +56,16 @@ exports.updateProduct = (req, res) => {
         product.photo.contentType = files.photo.type
       }
       product = _.extend(product, fields)
-      // console.log("product", product)
-      // product.save((err, result) => {
-      //   if (err) {
-      //     return res.status(400).json({
-      //       error: err
-      //     })
-      //   }
-      //   res.json(result)
-      // })
-      Product.create(product).then(() => res.redirect(303, "/product"));
+      console.log("product", product)
+      product.save((err, result) => {
+        if (err) {
+          return res.status(400).json({
+            error: err
+          })
+        }
+        res.json(result)
+      })
+      // Product.create(product).then(() => res.redirect(303, "/product"));
       // Product
       //   .find({})
       //   .then(() => res.redirect(303, '/product'))
